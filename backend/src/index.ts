@@ -20,18 +20,19 @@ const app = express();
 const server = http.createServer(app);
 
 const PORT = process.env.PORT || 5000;
-const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || 'http://localhost:5173';
+const rawOrigin = process.env.CLIENT_ORIGIN;
+const corsOrigin = rawOrigin && rawOrigin !== '*' ? rawOrigin : true;
 
 // Socket.IO server initialization with CORS settings aligned with client origin
 export const io = new Server(server, {
   cors: {
-    origin: CLIENT_ORIGIN,
+    origin: corsOrigin,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
   },
 });
 
-app.use(cors({ origin: CLIENT_ORIGIN, credentials: true }));
+app.use(cors({ origin: corsOrigin, credentials: true }));
 app.use(express.json());
 
 // API Route Registration
