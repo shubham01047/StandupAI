@@ -128,34 +128,6 @@ export const DashboardPageContent: React.FC = () => {
             </TaskProvider>
           </StandupProvider>
         )}
-
-        {/* Scope Completed Summary Banner */}
-        <div className="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-6">
-          <div className="flex items-center space-x-2 text-brand-400 text-sm font-semibold mb-3">
-            <Sparkles className="w-4 h-4" />
-            <span>Scope Implementation Complete 🎉</span>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs text-slate-300">
-            <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 font-medium">
-              ✓ 1. Auth: Signup/Login & Protected Routes
-            </div>
-            <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 font-medium">
-              ✓ 2. Teams: Create/Join Team via Invite Code
-            </div>
-            <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 font-medium">
-              ✓ 3. Standups: Daily Entry (did/doing/blockers)
-            </div>
-            <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 font-medium">
-              ✓ 4. AI Extraction: Structured Task Generation
-            </div>
-            <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 font-medium">
-              ✓ 5. Real-Time: Socket.IO Live Updates
-            </div>
-            <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 font-medium">
-              ✓ 6. Kanban-Lite Drag & Drop Board
-            </div>
-          </div>
-        </div>
       </main>
     </div>
   );
