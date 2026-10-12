@@ -128,6 +128,10 @@ export const DashboardPageContent: React.FC = () => {
             </TaskProvider>
           </StandupProvider>
         )}
+
+      
+            <Sparkles className="w-4 h-4" />
+          
       </main>
     </div>
   );
