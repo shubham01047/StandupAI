@@ -46,6 +46,39 @@ app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', service: 'StandupAI Backend API', timestamp: new Date().toISOString() });
 });
 
+// AI provider diagnostic endpoint - tests Groq/OpenAI connection
+app.get('/api/health/ai', async (_req, res) => {
+  const groqKey = process.env.GROQ_API_KEY;
+  const openaiKey = process.env.OPENAI_API_KEY;
+  const activeKey = groqKey || openaiKey;
+  const provider = groqKey ? 'Groq (Llama 3.1 8B)' : openaiKey ? 'OpenAI (gpt-4o-mini)' : 'None';
+
+  if (!activeKey || activeKey.startsWith('your_')) {
+    res.json({ status: 'unconfigured', provider: 'None', message: 'No API key set. Using rule-based fallback parser.' });
+    return;
+  }
+
+  try {
+    const OpenAI = (await import('openai')).default;
+    const client = new OpenAI({
+      apiKey: activeKey,
+      baseURL: groqKey ? 'https://api.groq.com/openai/v1' : undefined,
+    });
+    const model = groqKey ? 'llama-3.1-8b-instant' : 'gpt-4o-mini';
+    const response = await client.chat.completions.create({
+      model,
+      messages: [{ role: 'user', content: 'Reply with JSON: {"ok": true}' }],
+      temperature: 0,
+      response_format: { type: 'json_object' },
+      max_tokens: 20,
+    });
+    const reply = response.choices[0]?.message?.content;
+    res.json({ status: 'connected', provider, model, reply });
+  } catch (err: any) {
+    res.status(500).json({ status: 'error', provider, message: err?.message || String(err) });
+  }
+});
+
 // Initialize Socket.IO real-time event handlers and room management
 initSocketService(io);
 
