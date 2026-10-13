@@ -64,7 +64,7 @@ app.get('/api/health/ai', async (_req, res) => {
       apiKey: activeKey,
       baseURL: groqKey ? 'https://api.groq.com/openai/v1' : undefined,
     });
-    const model = groqKey ? 'llama3-8b-8192' : 'gpt-4o-mini';
+    const model = groqKey ? 'meta-llama/llama-4-scout-17b-16e-instruct' : 'gpt-4o-mini';
     const response = await client.chat.completions.create({
       model,
       messages: [{ role: 'user', content: 'Reply with JSON: {"ok": true}' }],
