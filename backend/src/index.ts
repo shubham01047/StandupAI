@@ -46,6 +46,31 @@ app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', service: 'StandupAI Backend API', timestamp: new Date().toISOString() });
 });
 
+// List all available models from Groq/OpenAI
+app.get('/api/health/models', async (_req, res) => {
+  const groqKey = process.env.GROQ_API_KEY;
+  const openaiKey = process.env.OPENAI_API_KEY;
+  const activeKey = groqKey || openaiKey;
+
+  if (!activeKey) {
+    res.json({ status: 'unconfigured', models: [] });
+    return;
+  }
+
+  try {
+    const OpenAI = (await import('openai')).default;
+    const client = new OpenAI({
+      apiKey: activeKey,
+      baseURL: groqKey ? 'https://api.groq.com/openai/v1' : undefined,
+    });
+    const response = await client.models.list();
+    const ids = response.data.map((m: any) => m.id).sort();
+    res.json({ status: 'ok', provider: groqKey ? 'groq' : 'openai', models: ids });
+  } catch (err: any) {
+    res.status(500).json({ status: 'error', message: err?.message || String(err) });
+  }
+});
+
 // AI provider diagnostic endpoint - tests Groq/OpenAI connection
 app.get('/api/health/ai', async (_req, res) => {
   const groqKey = process.env.GROQ_API_KEY;
