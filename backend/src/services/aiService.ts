@@ -41,7 +41,7 @@ export const extractTasksFromStandup = async (
   if (ai) {
     try {
       const { client, isGroq } = ai;
-      const modelName = isGroq ? 'llama-3.1-8b-instant' : 'gpt-4o-mini';
+      const modelName = isGroq ? 'llama3-8b-8192' : 'gpt-4o-mini';
       console.log(`[AIService] Processing task extraction with provider: ${isGroq ? 'Groq (Llama 3.1 8B)' : 'OpenAI (GPT-4o-mini)'}`);
 
       const prompt = `You are an AI task extraction assistant for engineering teams.
