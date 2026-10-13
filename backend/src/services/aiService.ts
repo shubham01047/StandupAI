@@ -41,8 +41,8 @@ export const extractTasksFromStandup = async (
   if (ai) {
     try {
       const { client, isGroq } = ai;
-      const modelName = isGroq ? 'meta-llama/llama-4-scout-17b-16e-instruct' : 'gpt-4o-mini';
-      console.log(`[AIService] Processing task extraction with provider: ${isGroq ? 'Groq (Llama 4 Scout 17B)' : 'OpenAI (GPT-4o-mini)'}`);
+      const modelName = isGroq ? 'qwen/qwen3.8-27b' : 'gpt-4o-mini';
+      console.log(`[AIService] Processing task extraction with provider: ${isGroq ? 'Groq (Qwen 3.8 27B)' : 'OpenAI (GPT-4o-mini)'}`);
 
       const prompt = `You are an AI task extraction assistant for engineering teams.
 Parse the following daily standup input and extract clear, concise, actionable task items.
